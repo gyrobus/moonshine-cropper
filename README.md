@@ -6,12 +6,12 @@
 
 ## Installation
 ```shell
-composer require tmoiseenko/moonshine-cropper
+composer require gyrobus/moonshine-cropper
 ```
 
 ## Usage
 ```php
-use Tmoiseenko\MoonshineCropper\Fields\Cropper;
+use Gyrobus\MoonshineCropper\Fields\Cropper;
 
 Cropper::make('Label')
 ```
