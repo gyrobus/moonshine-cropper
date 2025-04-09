@@ -27,7 +27,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "CropperServiceProvider"
+        "Gyrobus\\MoonshineCropper\\Providers\\CropperServiceProvider"
       ]
     }
   }
