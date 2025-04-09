@@ -1,4 +1,4 @@
-<x-moonshine::layout.div x-data="cropper">
+<x-moonshine::layout.div x-data="cropper({{ $ratio }}, {{ $mode }})">
 
     <small class="cropper-small">{{ __('moonshine-cropper::field.Upload image from your computer:') }}</small>
 

@@ -1,36 +1,56 @@
 document.addEventListener('alpine:init', () => {
-    Alpine.data('cropper', () => ({
+    Alpine.data('cropper', (r = 1, m = 0) => ({
         open: false,
         dontOpen: true,
         file: null,
+        input: null,
         cropperInstance: null,
+        ratio: parseFloat(r),
+        mode: parseInt(m),
 
         init() {
             this.$el.addEventListener('file-uploaded', (event) => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
+                    if (this.cropperInstance) this.cropperInstance.destroy();
+
                     const imageElement = this.$refs.cropperImage;
                     imageElement.src = e.target.result;
-                    if (this.cropperInstance) {
-                        this.cropperInstance.destroy();
-                    }
-                    this.cropperInstance = new Cropper(imageElement, {
-                        responsive: true,
-                    });
+                    imageElement.addEventListener('load', this.initCropper);
+
+                    setTimeout(() => {
+                        this.cropperInstance = new Cropper(imageElement, {
+                            responsive: true,
+                            aspectRatio: this.ratio,
+                            mode: this.mode
+                        });
+                    }, 500);
                     this.toggleModal();
                 };
                 reader.readAsDataURL(this.file);
             });
         },
 
-        handleFileChange(event) {
+        initCropper() {
+            const imageElement = this.$refs.cropperImage;
+            this.cropperInstance = new Cropper(imageElement, {
+                responsive: true,
+                aspectRatio: this.ratio,
+                mode: this.mode
+            });
+            this.toggleModal();
+            imageElement.removeEventListener('load', this.initCropper);
+        },
+
+        handleFileChange(e) {
             if(this.dontOpen) {
-                this.file = event.target.files[0];
-                const t = this
+                this.file = e.target.files[0];
+                this.input = e.target;
+                const t = this;
                 if (!this.file) return;
                 const reader = new FileReader();
                 this.$dispatch('file-uploaded', { file: this.file });
-                this.dontOpen = false
+                this.dontOpen = false;
             }
         },
 
@@ -50,11 +70,9 @@ document.addEventListener('alpine:init', () => {
                 const croppedFile = new File([blob], fileName, { type: mimeType });
                 const dataTransfer = new DataTransfer();
                 dataTransfer.items.add(croppedFile);
-                const fileInput = document.querySelector('input[type="file"]');
-                if (fileInput) {
-                    fileInput.files = dataTransfer.files;
-                    fileInput.dispatchEvent(new Event('change'));
-
+                if (this.input) {
+                    this.input.files = dataTransfer.files;
+                    this.input.dispatchEvent(new Event('change'));
                 }
                 this.toggleModal();
             });
