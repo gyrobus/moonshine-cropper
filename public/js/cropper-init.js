@@ -73,14 +73,19 @@ document.addEventListener('alpine:init', () => {
                 if (this.input) {
                     this.input.files = dataTransfer.files;
                     this.input.dispatchEvent(new Event('change'));
+                    this.dontOpen = true;
                 }
                 this.toggleModal();
             });
         },
 
         toggleModal() {
-            if (!this.open) this.dontOpen = true;
             this.open = !this.open;
+        },
+
+        closeModal() {
+            this.dontOpen = true;
+            this.open = false;
         }
     }));
 });

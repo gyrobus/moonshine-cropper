@@ -31,7 +31,7 @@
                         <h5 class="modal-title">{{ __('moonshine-cropper::field.Change image') }}</h5>
                         <button type="button"
                                 class="btn btn-close"
-                                @click.stop="open=false"
+                                @click.stop="closeModal"
                                 aria-label="Close"
                         >
                             <x-moonshine::icon icon="x-mark" size="6"/>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                     <div class="modal-header">
-                        <x-moonshine::link-button @click.prevent="toggleModal" class="btn-secondary">
+                        <x-moonshine::link-button @click.prevent="closeModal" class="btn-secondary">
                             {{ __('moonshine-cropper::field.Close') }}
                         </x-moonshine::link-button>
                         <a class="btn btn-primary"
