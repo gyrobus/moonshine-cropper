@@ -79,7 +79,8 @@ document.addEventListener('alpine:init', () => {
         },
 
         toggleModal() {
-            this.open = !this.open
+            if (!this.open) this.dontOpen = true;
+            this.open = !this.open;
         }
     }));
 });
