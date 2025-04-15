@@ -1,7 +1,7 @@
 {
   "name": "gyrobus/moonshine-cropper",
   "description": "Image cropper field for moonshine v3",
-  "keywords": ["Image cropper", "moonshine"],
+  "keywords": ["laravel", "Image cropper", "moonshine"],
   "type": "library",
   "license": "MIT",
   "authors": [
