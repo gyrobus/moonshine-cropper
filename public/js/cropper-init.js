@@ -16,30 +16,21 @@ document.addEventListener('alpine:init', () => {
 
                     const imageElement = this.$refs.cropperImage;
                     imageElement.src = e.target.result;
-                    imageElement.addEventListener('load', this.initCropper);
 
-                    setTimeout(() => {
+                    const loadHandler = () => {
                         this.cropperInstance = new Cropper(imageElement, {
                             responsive: true,
                             aspectRatio: this.ratio,
                             mode: this.mode
                         });
-                    }, 500);
-                    this.toggleModal();
+                        this.toggleModal();
+                        imageElement.removeEventListener('load', loadHandler);
+                    };
+
+                    imageElement.addEventListener('load', loadHandler);
                 };
                 reader.readAsDataURL(this.file);
             });
-        },
-
-        initCropper() {
-            const imageElement = this.$refs.cropperImage;
-            this.cropperInstance = new Cropper(imageElement, {
-                responsive: true,
-                aspectRatio: this.ratio,
-                mode: this.mode
-            });
-            this.toggleModal();
-            imageElement.removeEventListener('load', this.initCropper);
         },
 
         handleFileChange(e) {
